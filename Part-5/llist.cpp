@@ -7,24 +7,24 @@
 //
 
 #include <stdio.h>
+#include <iostream>
 #include "list.h"
+#include "mnode.cpp"
 #include "assert.h"
+using namespace std;
 
 // Singly linked list node
 template <typename E> class Link {
 public:
     E element;      // Value for this node
-    Link *down;   //Pointer to bottom node
     Link *next;        // Pointer to next node in list
+    MNode<E>* header = NULL;
     // Constructors
-    Link(const E& elemval, Link* nextval =NULL, Link* downval =NULL)
-    { element = elemval;  next = nextval; down = downval; }
-    Link(Link* nextval =NULL, Link* downval =NULL) { next = nextval; down = downval; }
+    Link(const E& elemval, Link* nextval =NULL)
+    { element = elemval;  next = nextval; }
+    Link(Link* nextval =NULL) { next = nextval;}
 };
 
-
-// This is the declaration for LList. It is split into two parts
-// because it is too big to fit on one book page
 // Linked list implementation
 template <typename E> class LList: public List<E> {
 private:
@@ -52,20 +52,14 @@ public:
     void print() const;                // Print list contents
     void clear() { removeall(); init(); }       // Clear list
     
-    // Insert "it" at current position
     void insert(const E& it) {
         curr->next = new Link<E>(it, curr->next);
         if (tail == curr) tail = curr->next;  // New tail
         cnt++;
     }
     
-    void appendNext(const E& it) { // Append "it" to list
-        tail = tail->next = new Link<E>(it, NULL, NULL);
-        cnt++;
-    }
-    
-    void appendDown(const E& it) { // Append "it" to list
-        tail = tail->down = new Link<E>(it, NULL, NULL);
+    void append(const E& it) { // Append "it" to list
+        tail = tail->next = new Link<E>(it, NULL);
         cnt++;
     }
     
@@ -100,9 +94,6 @@ public:
     void next()
     { if (curr != tail) curr = curr->next; }
     
-    void down()
-    { if (curr != tail) curr = curr->down; }
-    
     int length() const  { return cnt; } // Return length
     
     // Return the position of the current element
@@ -121,15 +112,23 @@ public:
         for(int i=0; i<pos; i++) curr = curr->next;
     }
     
-    const E& getNextValue() const { // Return current element
-        assert(curr->next != NULL);
-        return curr->next->element;
+    E getValue() { return curr->next->element; }
+    
+    E getLastValue() { return tail->element; }
+    
+    void add(E pos) {
+        moveToStart();
+        
+        if(tail->element < pos)      //new element bigger than those in list
+            append(pos);          //append
+        else {
+            while(curr->next->element < pos)    //go to correct position
+                next();
+            insert(pos);
+        }
     }
     
-    const E& getDownValue() const { // Return current element
-        assert(curr->down != NULL);
-        return curr->down->element;
-    }
+    MNode<E>* getPtr() { return curr->next->header;}
     
     //reset current pointer
     void reset() {

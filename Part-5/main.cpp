@@ -15,10 +15,10 @@ int main(int argc, const char * argv[]) {
     
     std::cout << "Hello, World!\n";
     
-    Matrix<int> m(10);
-    cout<<" ";
-    m.printCol();
-    cout<<endl;
-    m.printRow();
+    Matrix<int> m;
+    m.print();
+    m.insert(3, 15, 9);
+    m.print();
+
     return 0;
 }

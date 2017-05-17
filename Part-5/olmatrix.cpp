@@ -11,69 +11,84 @@
 #include "llist.cpp"
 using namespace std;
 
-template <typename E> class MNode {
-public:
-    E element;
-    int row;
-    int column;
-    MNode *right;
-    MNode *left;
-    MNode *top;
-    MNode *bottom;
-    MNode (const E& e, MNode *r, MNode *l, MNode *t, MNode *b, int rowPos, int colPos) {
-        element = e;
-        right = r;
-        left = l;
-        top = t;
-        bottom = b;
-        row = rowPos;
-        column = colPos;
-    }
-};
 
 template <typename E> class Matrix {
 private:
-    int size;
+    MNode<E>* node=NULL;
     LList<E> row;
     LList<E> column;
 public:
-    Matrix(int s) {
-        size = s;
-        //fill out the row & column index
-        for(int i = 0; i < size; i++) {
-            row.appendDown(i);
-            column.appendNext(i);
-        }
-    }
-   
-    void printRow(){
-        for(int i = 0; i < size; i++) {
-            cout << row.getDownValue() << endl;
-            row.down();
-        }
-        
-        row.reset();
+    Matrix() {
+        for(int i = 0; i < 7; i++)
+            column.append(i);
+      //  for(int i = 0; i < 5; i++)
+            row.append(1);
+        row.append(3);
+        row.append(9);
+        row.append(11);
     }
     
-    void printCol(){
-        for(int i = 0; i < size; i++) {
-            printf("%3d", column.getNextValue());
+    void print() {
+        column.moveToStart();
+        row.moveToStart();
+        
+        for(int i = 0; i < column.length(); i++) {
+            printf("%4d", column.getValue());
             column.next();
         }
+
+        cout << endl;
         
-        column.reset();
-    }
-    
-    void insert(E e, int r, int c) {
-        int counter = 0;
-        
-        //get to the correct row
-        while (counter < r) {
-            row.down();
+        for(int i = 0; i < row.length(); i++) {
+            cout << row.getValue() << endl;
+            row.next();
         }
-        
-        if(row.next == NULL)
-            row.next = new MNode<E>(e, NULL, NULL, NULL, NULL, r, c);
     }
    
+    void insert(E e, int r, int c) {
+        column.moveToStart();
+        row.moveToStart();
+        
+        bool rowFound = findPos(row, r);
+        bool colFound = findPos(column, c);
+        
+        cout << "test row " << rowFound << endl;
+        cout << "test col " << colFound << endl;
+        
+        //insert row & column if not present
+        if(!rowFound)
+            row.add(r); //add new row
+        
+        if(!colFound)
+            column.add(c);  //add new column
+
+        //add matrix node
+        
+        node = row.getPtr();
+        if(node == NULL) {
+            node = new MNode<E>;
+            node->element = e;
+            node->row = r;
+            node->column = c;
+        }
+        
+        
+        if(rowFound && colFound)
+            cout << "add matrix node" << endl;
+        else
+            cout <<"need to insert" << endl;
+    }
+    
+    bool findPos(LList<E> &list, int pos) {
+        for(int i = 0; i < list.length(); i++) {
+            
+            if (list.getValue() == pos) {
+                return true;
+            }
+
+            list.next();
+        }
+
+        return false;
+    }
 };

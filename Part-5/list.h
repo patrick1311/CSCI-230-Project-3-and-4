@@ -58,11 +58,7 @@ public:
     // Set current position.
     // pos: The position to make current.
     virtual void moveToPos(int pos) = 0;
-    
-    // Return: The current element.
-    virtual const E& getNextValue() const = 0;
-    
-    virtual const E& getDownValue() const = 0;
+
 };
 
 #endif /* list_h */
