@@ -14,7 +14,7 @@
 using namespace std;
 
 
-#define MAXLEVEL 2
+#define MAXLEVEL 5
 
 template <typename Key, typename E>
 class SkipNode {
@@ -99,10 +99,30 @@ public:
         count++;
     }
     
-    
     E remove(const Key& K) {
+        int i;
+        SkipNode<Key, E>* temp = head;
+        SkipNode<Key, E>* update[level+1];
         
-        return false;
+        //search for end nodes and store in update array
+        for(i = level; i >= 0; i--) {
+            while((temp->forward[i] != NULL) && (temp->forward[i]->k < K))
+                temp = temp->forward[i];
+            update[i] = temp;
+        }
+        
+        //move temp to point to next one
+        temp = temp->forward[0];
+        
+        if(temp == NULL || temp->k != K)    //if last record or key != K
+            return NULL;
+        else  {         //found it and remove
+            E item = temp->it;
+            for(int j = 0; j <= temp->nodeLevel; j++)
+                update[j]->forward[j] = temp->forward[j];
+            count--;
+            return item;
+        }
     }
     
     void clear() {
@@ -116,11 +136,11 @@ public:
     void print() {
         SkipNode<Key, E>* temp = head;
         for(int i = 0; i < count; i++) {
-            if(temp->forward[0]->k != NULL)
+            if(temp->forward[0]->k != NULL) {
                 cout << "Key: " << temp->forward[0]->k
                     << " - Item: " << temp->forward[0]->it
                     << " - Level: " << temp->forward[0]->nodeLevel << endl;
-            
+            }
             temp = temp->forward[0];
         }
     }
@@ -131,7 +151,10 @@ public:
 
     //generate random level from 0 to MAXLEVEL
     int randomLevel() {
-        int level = rand() % (MAXLEVEL + 1);
+        int level = 0;
+        while(rand() % (MAXLEVEL + 1) == 0)
+            level++;
+        
         return level;
     }
 };
