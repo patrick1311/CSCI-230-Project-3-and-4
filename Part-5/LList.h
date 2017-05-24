@@ -1,10 +1,6 @@
 #include "List.h"
 #include <stddef.h>
 
-// This is the declaration for LList. It is split into two parts
-// because it is too big to fit on one book page
-// Linked list implementation
-
 // Singly linked list node
 template <typename E> class Link {
 public:
@@ -41,18 +37,19 @@ public:
   ~LList() { removeall(); }                   // Destructor
   void print()
   {
-	  
 	  moveToStart();
 	 for(int i = 0; i < cnt; i++)
 	  {
 		  getValue().print();
 		  curr = curr->next;
 	  }
-	  std::cout << std::endl;
+	 
 	  moveToStart();
 	  
   }
   void clear() { removeall(); init(); }       // Clear list
+
+ 
 
   // Insert "it" at current position
   void insert(const E& it) {
