@@ -1,0 +1,47 @@
+Size of sList is 3
+Key: 1 - Item: 90 - Level: 0
+Key: 2 - Item: 45 - Level: 0
+Key: 5 - Item: 23 - Level: 0
+
+Searching for key 5: 23
+
+After clear size is 0
+Key: 1 - Item: 90 - Level: 0
+Key: 2 - Item: 52 - Level: 2
+Key: 3 - Item: 41 - Level: 1
+Key: 4 - Item: 31 - Level: 0
+Key: 5 - Item: 11 - Level: 0
+Key: 6 - Item: 100 - Level: 1
+Key: 12 - Item: 24 - Level: 0
+
+Removing INVALID data: 0
+Key: 1 - Item: 90 - Level: 0
+Key: 2 - Item: 52 - Level: 2
+Key: 3 - Item: 41 - Level: 1
+Key: 4 - Item: 31 - Level: 0
+Key: 5 - Item: 11 - Level: 0
+Key: 6 - Item: 100 - Level: 1
+Key: 12 - Item: 24 - Level: 0
+
+Removing VALID data: 11
+Key: 1 - Item: 90 - Level: 0
+Key: 2 - Item: 52 - Level: 2
+Key: 3 - Item: 41 - Level: 1
+Key: 4 - Item: 31 - Level: 0
+Key: 6 - Item: 100 - Level: 1
+Key: 12 - Item: 24 - Level: 0
+
+Removing VALID data: 52
+Key: 1 - Item: 90 - Level: 0
+Key: 3 - Item: 41 - Level: 1
+Key: 4 - Item: 31 - Level: 0
+Key: 6 - Item: 100 - Level: 1
+Key: 12 - Item: 24 - Level: 0
+
+Removing INVALID data: 0
+Key: 1 - Item: 90 - Level: 0
+Key: 3 - Item: 41 - Level: 1
+Key: 4 - Item: 31 - Level: 0
+Key: 6 - Item: 100 - Level: 1
+Key: 12 - Item: 24 - Level: 0
+Program ended with exit code: 0
